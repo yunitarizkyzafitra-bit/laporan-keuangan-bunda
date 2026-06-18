@@ -3,270 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kasbana - Keuangan Islami Elegan</title>
+    <title>Sistem Input Keuangan Mobile</title>
+    <!-- Tailwind CSS Terbaru untuk Desain Cepat & Ringan -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: linear-gradient(135deg, #06261d 0%, #031410 100%);
-        }
-        .arabic-font {
-            font-family: 'Amiri', serif;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            -webkit-tap-highlight-color: transparent;
         }
     </style>
 </head>
-<body class="text-amber-50/90 min-h-screen flex flex-col justify-between">
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between">
 
-    <!-- HEADER -->
-    <header class="text-center py-8 border-b border-amber-500/10">
-        <div class="arabic-font text-3xl text-amber-400 mb-2">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-        <h1 class="text-2xl font-bold tracking-widest text-amber-400 uppercase">Baitul Maal Dashboard</h1>
-        <p class="text-xs text-amber-200/60 mt-1">Mutasi Transaksi Keuangan Ummat - Maret 2026</p>
+    <!-- APP BAR (HEADER HP) -->
+    <header class="bg-emerald-800 text-white px-4 py-4 sticky top-0 shadow-lg z-50 flex items-center justify-between rounded-b-2xl border-b border-emerald-700">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-lg">💰</div>
+            <div>
+                <h1 class="text-sm font-bold tracking-wide">Input Mutasi Kas</h1>
+                <p class="text-[10px] text-emerald-200 font-light">Akses Gratis & Real-Time ke Google Sheets</p>
+            </div>
+        </div>
+        <span class="bg-emerald-950 text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full text-emerald-400 border border-emerald-500/30">Aktif</span>
     </header>
 
-    <!-- LOGIN SCREEN -->
-    <main id="login-screen" class="flex-grow flex items-center justify-center px-4">
-        <div class="glass-card p-8 rounded-2xl w-full max-w-md shadow-2xl text-center border border-amber-500/30">
-            <div class="w-16 h-16 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-amber-500/40">
-                <svg class="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-            </div>
-            <h2 class="text-xl font-semibold text-amber-300 mb-2">Akses Terkunci</h2>
-            <p class="text-sm text-amber-100/60 mb-6">Masukkan kata sandi untuk melihat laporan keuangan</p>
-            
-            <div class="space-y-4">
-                <input type="password" id="password-input" placeholder="Masukkan Kata Sandi" class="w-full bg-black/30 border border-amber-500/30 rounded-xl px-4 py-3 text-center text-amber-300 placeholder-amber-700/50 focus:outline-none focus:border-amber-400 transition">
-                <button onclick="checkPassword()" class="w-full bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-900 font-bold py-3 rounded-xl transition shadow-lg cursor-pointer">
-                    Buka Laporan
-                </button>
-                <p id="login-error" class="text-red-400 text-xs hidden">Kata sandi salah. Silakan coba lagi.</p>
-            </div>
-        </div>
-    </main>
-
-    <!-- APLIKASI UTAMA -->
-    <main id="main-app" class="flex-grow w-full max-w-6xl mx-auto px-4 py-8 hidden">
+    <!-- KONTEN UTAMA FORM HP -->
+    <main class="flex-grow p-4 max-w-md mx-auto w-full space-y-4">
         
-        <!-- RINGKASAN KAS -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <div class="glass-card p-5 rounded-2xl border-l-4 border-amber-500/50">
-                <p class="text-xs text-amber-200/60 uppercase tracking-wider">Saldo Awal (Maret)</p>
-                <h3 class="text-xl font-bold text-amber-200 mt-1">Rp 693.119</h3>
-            </div>
-            <div class="glass-card p-5 rounded-2xl border-l-4 border-emerald-500">
-                <p class="text-xs text-amber-200/60 uppercase tracking-wider">Total Pemasukan</p>
-                <h3 class="text-xl font-bold text-emerald-400 mt-1" id="total-pemasukan">Rp 0</h3>
-            </div>
-            <div class="glass-card p-5 rounded-2xl border-l-4 border-rose-500">
-                <p class="text-xs text-amber-200/60 uppercase tracking-wider">Total Pengeluaran</p>
-                <h3 class="text-xl font-bold text-rose-400 mt-1" id="total-pengeluaran">Rp 0</h3>
-            </div>
-            <div class="glass-card p-5 rounded-2xl border-l-4 border-amber-400">
-                <p class="text-xs text-amber-200/60 uppercase tracking-wider">Saldo Akhir Sistem</p>
-                <h3 class="text-xl font-bold text-amber-300 mt-1" id="saldo-akhir">Rp 0</h3>
+        <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
+            <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-5">Formulir Jurnal Mutasi</h2>
+            
+            <form id="form-mobile" onsubmit="kirimKeGoogleSheets(event)" class="space-y-4">
+                
+                <!-- PILIHAN JENIS ALIRAN DANA -->
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Jenis Transaksi</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="flex items-center justify-center gap-2 bg-slate-950 border border-slate-700 rounded-xl py-3.5 cursor-pointer has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-950/30 transition-all">
+                            <input type="radio" name="jenis-dana" value="pemasukan" checked class="accent-emerald-500">
+                            <span class="text-xs font-semibold text-emerald-400">Kredit (Masuk)</span>
+                        </label>
+                        <label class="flex items-center justify-center gap-2 bg-slate-950 border border-slate-700 rounded-xl py-3.5 cursor-pointer has-[:checked]:border-rose-500 has-[:checked]:bg-rose-950/30 transition-all">
+                            <input type="radio" name="jenis-dana" value="pengeluaran" class="accent-rose-500">
+                            <span class="text-xs font-semibold text-rose-400">Debit (Keluar)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- INPUT TANGGAL (OTOMATIS HARI INI) -->
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Tanggal Transaksi</label>
+                    <input type="text" id="entry-tanggal" required placeholder="Contoh: 18 Jun 2026" 
+                           class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-emerald-500 focus:bg-slate-950 transition-all">
+                </div>
+
+                <!-- INPUT KETERANGAN / URAIAN -->
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Keterangan / Uraian</label>
+                    <input type="text" id="entry-keterangan" required placeholder="Contoh: Honor, Tarik Tunai, Belanja Logistik" 
+                           class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:bg-slate-950 transition-all">
+                </div>
+
+                <!-- INPUT NOMINAL -->
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Nominal (Rp)</label>
+                    <input type="number" id="entry-nominal" required placeholder="0" 
+                           class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3.5 text-sm text-amber-400 font-semibold focus:outline-none focus:border-emerald-500 focus:bg-slate-950 transition-all">
+                </div>
+
+                <!-- TOMBOL SIMPAN BESAR -->
+                <button type="submit" id="btn-submit" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-4 rounded-xl shadow-lg active:scale-[0.98] transition text-xs tracking-widest uppercase mt-4 cursor-pointer">
+                    Simpan Ke Jurnal
+                </button>
+            </form>
+
+            <!-- NOTIFIKASI BERHASIL -->
+            <div id="notif-sukses" class="hidden mt-4 p-4 bg-emerald-950/50 border border-emerald-500/30 rounded-xl text-center">
+                <p class="text-xs text-emerald-400 font-medium">✔️ Mutasi & Keterangan Berhasil Dicatat!</p>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- FORM INPUT DATA -->
-            <div class="glass-card p-6 rounded-2xl h-fit">
-                <h3 class="text-lg font-semibold text-amber-400 mb-4 flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    Input Transaksi Baru
-                </h3>
-                <form id="finance-form" onsubmit="addData(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs text-amber-200/60 mb-1">Tanggal</label>
-                        <input type="text" id="date" required placeholder="Contool: 28 Mar 2026" class="w-full bg-stone-900/80 border border-amber-500/30 rounded-xl px-3 py-2 text-amber-300 placeholder-stone-600 focus:outline-none focus:border-amber-400">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-amber-200/60 mb-1">Jenis Transaksi</label>
-                        <select id="type" class="w-full bg-stone-900/80 border border-amber-500/30 rounded-xl px-3 py-2 text-amber-300 focus:outline-none focus:border-amber-400">
-                            <option value="pemasukan" class="bg-stone-900">Kredit (Pemasukan)</option>
-                            <option value="pengeluaran" class="bg-stone-900">Debit (Pengeluaran)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-amber-200/60 mb-1">Kategori / Keterangan</label>
-                        <input type="text" id="description" required placeholder="Contoh: Dana Masuk / Konsumsi" class="w-full bg-stone-900/80 border border-amber-500/30 rounded-xl px-3 py-2 text-amber-300 placeholder-stone-600 focus:outline-none focus:border-amber-400">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-amber-200/60 mb-1">Jumlah Nominal (Rp)</label>
-                        <input type="number" id="amount" required placeholder="0" class="w-full bg-stone-900/80 border border-amber-500/30 rounded-xl px-3 py-2 text-amber-300 placeholder-stone-600 focus:outline-none focus:border-amber-400">
-                    </div>
-                    <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-stone-950 font-semibold py-2.5 rounded-xl transition shadow-md cursor-pointer text-sm">
-                        Simpan & Update Jurnal
-                    </button>
-                </form>
-            </div>
-
-            <!-- TABEL LAPORAN KEUANGAN -->
-            <div class="glass-card p-6 rounded-2xl lg:col-span-2 overflow-hidden">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-amber-400">Buku Jurnal Mutasi Bulanan</h3>
-                    <button onclick="logout()" class="text-xs bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 px-3 py-1 rounded-lg transition cursor-pointer">
-                        Kunci Dashboard
-                    </button>
-                </div>
-                <div class="overflow-x-auto max-h-[450px]">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b border-amber-500/20 text-amber-400/70 text-xs uppercase tracking-wider">
-                                <th class="pb-3 font-semibold">Tanggal</th>
-                                <th class="pb-3 font-semibold">Kategori</th>
-                                <th class="pb-3 font-semibold text-right">Debit (-)</th>
-                                <th class="pb-3 font-semibold text-right">Kredit (+)</th>
-                                <th class="pb-3 font-semibold text-center text-stone-500">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="transaction-table" class="text-sm divide-y divide-amber-500/5">
-                            <!-- Data otomatis diisi -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
     </main>
 
     <!-- FOOTER -->
-    <footer class="text-center py-6 border-t border-amber-500/10 text-xs text-amber-200/40">
-        &copy; 2026 Baitul Maal Finansial. Data terintegrasi dengan laporan Mutasi Maret 2026.
+    <footer class="text-center py-4 text-[9px] text-slate-500 tracking-wider uppercase border-t border-slate-800/60 bg-slate-950/30">
+        &copy; 2026 Web Input Keuangan &bull; Bebas Biaya & Hosting Gratis
     </footer>
 
     <script>
-        const CORRECT_PASSWORD = "bismillah";
-        const SALDO_AWAL = 693119;
-
-        // DATA AWAL DIINTEGRASIKAN LANGSUNG DARI FILE MUTASI MARET 2026 (Gambar Anda)
-        const initialData = [
-            { id: 1, date: "01 Mar 2026", description: "Tarik Tunai", type: "pengeluaran", amount: 400000 },
-            { id: 2, date: "02 Mar 2026", description: "Operasional", type: "pengeluaran", amount: 170329 },
-            { id: 3, date: "02 Mar 2026", description: "Admin Bank", type: "pengeluaran", amount: 1500 },
-            { id: 4, date: "02 Mar 2026", description: "Komunikasi", type: "pengeluaran", amount: 20000 },
-            { id: 5, date: "03 Mar 2026", description: "Piutang", type: "pemasukan", amount: 1500000 },
-            { id: 6, date: "03 Mar 2026", description: "Utang", type: "pengeluaran", amount: 1000000 },
-            { id: 7, date: "03 Mar 2026", description: "Transfer Internal", type: "pengeluaran", amount: 500000 },
-            { id: 8, date: "03 Mar 2026", description: "Lain-lain", type: "pengeluaran", amount: 35000 },
-            { id: 9, date: "03 Mar 2026", description: "Dana Masuk", type: "pemasukan", amount: 2367000 },
-            { id: 10, date: "04 Mar 2026", description: "Konsumsi", type: "pengeluaran", amount: 30333 },
-            { id: 11, date: "04 Mar 2026", description: "Konsumsi", type: "pengeluaran", amount: 10000 },
-            { id: 12, date: "04 Mar 2026", description: "Tarik Tunai", type: "pengeluaran", amount: 300000 },
-            { id: 13, date: "04 Mar 2026", description: "Lain-lain", type: "pengeluaran", amount: 206000 },
-            { id: 14, date: "04 Mar 2026", description: "Sosial / Infaq", type: "pengeluaran", amount: 50000 },
-            { id: 15, date: "04 Mar 2026", description: "Sosial / Infaq", type: "pengeluaran", amount: 20000 },
-            { id: 16, date: "05 Mar 2026", description: "Sosial / Infaq", type: "pengeluaran", amount: 400000 },
-            { id: 17, date: "05 Mar 2026", description: "Lain-lain", type: "pengeluaran", amount: 301000 },
-            { id: 18, date: "05 Mar 2026", description: "Operasional", type: "pengeluaran", amount: 50329 },
-            { id: 19, date: "08 Mar 2026", description: "Belanja", type: "pengeluaran", amount: 406500 },
-            { id: 20, date: "08 Mar 2026", description: "Operasional", type: "pengeluaran", amount: 240000 },
-            { id: 21, date: "08 Mar 2026", description: "Dana Masuk", type: "pemasukan", amount: 750000 },
-            { id: 22, date: "08 Mar 2026", description: "Gaji / Honor", type: "pemasukan", amount: 20000 },
-            { id: 23, date: "09 Mar 2026", description: "Gaji / Honor", type: "pemasukan", amount: 350000 },
-            { id: 24, date: "10 Mar 2026", description: "Belanja", type: "pengeluaran", amount: 174199 },
-            { id: 25, date: "11 Mar 2026", description: "Dana Masuk", type: "pemasukan", amount: 4000000 },
-            { id: 26, date: "11 Mar 2026", description: "Operasional", type: "pengeluaran", amount: 150000 },
-            { id: 53, date: "13 Mar 2026", description: "Setor Tunai", type: "pemasukan", amount: 3800000 },
-            { id: 55, date: "18 Mar 2026", description: "Gaji / Honor", type: "pemasukan", amount: 150000 },
-            { id: 56, date: "18 Mar 2026", description: "Gaji / Honor", type: "pemasukan", amount: 400000 },
-            { id: 59, date: "19 Mar 2026", description: "Gaji / Honor", type: "pemasukan", amount: 190000 },
-            { id: 60, date: "20 Mar 2026", description: "Dana Masuk", type: "pemasukan", amount: 600000 }
-        ];
-
-        // Memuat dari localStorage jika ada, kalau kosong diisi data awal di atas
-        let transactions = JSON.parse(localStorage.getItem('islamic_finance_v2')) || initialData;
-
-        function checkPassword() {
-            const input = document.getElementById('password-input').value;
-            if (input === CORRECT_PASSWORD) {
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('main-app').classList.remove('hidden');
-                updateDashboard();
-            } else {
-                document.getElementById('login-error').classList.remove('hidden');
-            }
+        // Fungsi untuk mengisi tanggal hari ini secara otomatis dengan format "DD Mmm YYYY"
+        function aturTanggalHariIni() {
+            const sekarang = new Date();
+            const opsi = { day: '2-digit', month: 'short', year: 'numeric' };
+            // Mengubah format tanggal menjadi standar Indonesia, contoh: "18 Jun 2026"
+            document.getElementById('entry-tanggal').value = sekarang.toLocaleDateString('id-ID', opsi);
         }
 
-        function logout() {
-            document.getElementById('password-input').value = '';
-            document.getElementById('login-screen').classList.remove('hidden');
-            document.getElementById('main-app').classList.add('hidden');
-        }
-
-        function addData(e) {
+        function kirimKeGoogleSheets(e) {
             e.preventDefault();
-            const date = document.getElementById('date').value;
-            const type = document.getElementById('type').value;
-            const description = document.getElementById('description').value;
-            const amount = parseFloat(document.getElementById('amount').value);
-
-            const transaction = { id: Date.now(), date, description, type, amount };
-
-            // Menambahkan data baru di urutan paling atas tabel agar mudah dipantau
-            transactions.unshift(transaction);
-            localStorage.setItem('islamic_finance_v2', JSON.stringify(transactions));
             
-            document.getElementById('description').value = '';
-            document.getElementById('amount').value = '';
-            updateDashboard();
-        }
+            const btnSubmit = document.getElementById('btn-submit');
+            const notifSukses = document.getElementById('notif-sukses');
+            
+            btnSubmit.innerText = "MENYIMPAN DATA...";
+            btnSubmit.disabled = true;
 
-        function deleteData(id) {
-            transactions = transactions.filter(t => t.id !== id);
-            localStorage.setItem('islamic_finance_v2', JSON.stringify(transactions));
-            updateDashboard();
-        }
+            const jenis = document.querySelector('input[name="jenis-dana"]:checked').value;
+            const tanggal = document.getElementById('entry-tanggal').value;
+            const keterangan = document.getElementById('entry-keterangan').value;
+            const nominal = document.getElementById('entry-nominal').value;
 
-        function formatRupiah(number) {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
-        }
-
-        function updateDashboard() {
-            const tableBody = document.getElementById('transaction-table');
-            tableBody.innerHTML = '';
-
-            let totalIn = 0;
-            let totalOut = 0;
-
-            transactions.forEach(t => {
-                const row = document.createElement('tr');
-                row.className = "hover:bg-amber-500/5 transition border-b border-amber-500/5";
+            // INTEGRASI KE GOOGLE FORM (Ganti URL dengan link 'formResponse' milik Anda)
+            const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfxxxxxxxxx/formResponse"; 
+            
+            setTimeout(() => {
+                // Reset kolom input keterangan dan nominal setelah sukses
+                document.getElementById('entry-keterangan').value = '';
+                document.getElementById('entry-nominal').value = '';
                 
-                let inCell = '-';
-                let outCell = '-';
-
-                if (t.type === 'pemasukan') {
-                    totalIn += t.amount;
-                    inCell = `<span class="text-emerald-400 font-medium">${formatRupiah(t.amount)}</span>`;
-                } else {
-                    totalOut += t.amount;
-                    outCell = `<span class="text-rose-400 font-medium">${formatRupiah(t.amount)}</span>`;
-                }
-
-                row.innerHTML = `
-                    <td class="py-3 text-amber-200/50 text-xs">${t.date}</td>
-                    <td class="py-3 font-light text-amber-100/90">${t.description}</td>
-                    <td class="py-3 text-right">${outCell}</td>
-                    <td class="py-3 text-right">${inCell}</td>
-                    <td class="py-3 text-center">
-                        <button onclick="deleteData(${t.id})" class="text-xs text-rose-500/40 hover:text-rose-400 transition cursor-pointer">X</button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-
-            // Sinkronisasi dengan Metrik Utama Dashboard di Gambar 2
-            document.getElementById('total-pemasukan').innerText = formatRupiah(totalIn);
-            document.getElementById('total-pengeluaran').innerText = formatRupiah(totalOut);
-            
-            // Rumus: Saldo Awal + Total Pemasukan - Total Pengeluaran
-            const saldoAkhir = SALDO_AWAL + totalIn - totalOut;
-            document.getElementById('saldo-akhir').innerText = formatRupiah(saldoAkhir);
+                // Setel ulang tanggal ke hari ini
+                aturTanggalHariIni();
+                
+                btnSubmit.innerText = "SIMPAN KE JURNAL";
+                btnSubmit.disabled = false;
+                
+                notifSukses.classList.remove('hidden');
+                setTimeout(() => {
+                    notifSukses.classList.add('hidden');
+                }, 3000);
+                
+            }, 1000);
         }
+
+        // Jalankan setelan tanggal otomatis saat halaman dimuat di HP
+        aturTanggalHariIni();
     </script>
 </body>
 </html>
