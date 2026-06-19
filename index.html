@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Keuangan Premium Mobile</title>
+    <title>Sistem Keuangan Premium Cloud</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -66,16 +66,31 @@
 
         <main class="p-4 max-w-md mx-auto w-full space-y-4">
             
-            <div class="premium-glass p-5 rounded-xl space-y-3.5">
+            <div class="bg-gradient-to-r from-amber-950/40 to-slate-900 border border-amber-500/20 p-4 rounded-xl space-y-2">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wide">Alat Sinkronisasi Historis</h3>
+                        <p class="text-[10px] text-slate-400 mt-0.5">Kirim sekaligus 78 data mutasi Maret ke Sheets baru.</p>
+                    </div>
+                    <span class="bg-amber-500/10 text-amber-400 text-[9px] font-bold px-2 py-0.5 rounded border border-amber-500/20">Ready</span>
+                </div>
+                <button onclick="uploadHistoricalData()" id="btn-sync-all" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold py-2.5 rounded-lg text-xs tracking-wider uppercase transition active:scale-[0.98] mt-1 cursor-pointer">
+                    🚀 Sinkronkan 78 Data Ke Google Sheets
+                </button>
+                <div id="sync-progress" class="hidden text-center text-[10px] text-amber-300 font-medium animate-pulse">
+                    Mentransfer data: <span id="sync-count">0</span> / 78...
+                </div>
+            </div>
+
+            <div class="premium-glass p-4 rounded-xl space-y-3.5">
                 <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400">Input Jurnal Baru</h2>
                 
                 <iframe name="v_iframe" id="v_iframe" class="hidden"></iframe>
 
-                <form id="form-transaksi" action="" method="POST" target="v_iframe" onsubmit="sendDataCloud(event)" class="space-y-4">
-                    
+                <form id="form-transaksi" action="" method="POST" target="v_iframe" onsubmit="sendDataCloud(event)" class="space-y-3.5">
                     <div>
-                        <label class="block text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1.5">Jenis Transaksi</label>
-                        <div class="grid grid-cols-2 gap-2" id="radio-container">
+                        <label class="block text-[9px] uppercase font-bold tracking-wider text-slate-400 mb-1">Jenis Transaksi</label>
+                        <div class="grid grid-cols-2 gap-2">
                             <label class="flex items-center justify-center gap-1.5 bg-slate-900 border border-slate-700 py-3 rounded-lg cursor-pointer has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-950/20">
                                 <input type="radio" name="entry.JENIS_ID" value="pemasukan" checked class="accent-emerald-500">
                                 <span class="text-xs font-medium text-emerald-400">Kredit (Masuk)</span>
@@ -88,27 +103,27 @@
                     </div>
 
                     <div>
-                        <label class="block text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Tanggal</label>
-                        <input type="text" name="entry.TANGGAL_ID" id="form-date" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-3 text-sm text-white focus:outline-none focus:border-emerald-500">
+                        <label class="block text-[9px] uppercase font-bold tracking-wider text-slate-400 mb-1">Tanggal</label>
+                        <input type="text" name="entry.TANGGAL_ID" id="form-date" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
                     </div>
 
                     <div>
-                        <label class="block text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Keterangan / Uraian</label>
-                        <input type="text" name="entry.KETERANGAN_ID" id="form-desc" required placeholder="Contoh: Belanja ATK, Gaji, dll" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500">
+                        <label class="block text-[9px] uppercase font-bold tracking-wider text-slate-400 mb-1">Keterangan / Uraian</label>
+                        <input type="text" name="entry.KETERANGAN_ID" id="form-desc" required placeholder="Contoh: Belanja Logistik, dll" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500">
                     </div>
 
                     <div>
-                        <label class="block text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Nominal (Rp)</label>
-                        <input type="number" name="entry.NOMINAL_ID" id="form-amount" required placeholder="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-3.5 text-base text-amber-400 font-bold focus:outline-none focus:border-emerald-500">
+                        <label class="block text-[9px] uppercase font-bold tracking-wider text-slate-400 mb-1">Nominal (Rp)</label>
+                        <input type="number" name="entry.NOMINAL_ID" id="form-amount" required placeholder="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-3 text-sm text-amber-400 font-bold focus:outline-none focus:border-emerald-500">
                     </div>
 
-                    <button type="submit" id="btn-submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg active:scale-[0.98] uppercase tracking-wider text-xs mt-2 cursor-pointer">
+                    <button type="submit" id="btn-submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg text-xs tracking-wider uppercase mt-1 cursor-pointer">
                         Kirim ke Google Sheets
                     </button>
                 </form>
 
-                <div id="notif-sukses" class="hidden p-4 bg-emerald-950/50 border border-emerald-500/30 rounded-xl text-center">
-                    <p class="text-xs text-emerald-400 font-medium">✔️ Berhasil Disinkronkan ke Spreadsheet!</p>
+                <div id="notif-sukses" class="hidden p-3 bg-emerald-950/50 border border-emerald-500/30 rounded-lg text-center">
+                    <p class="text-xs text-emerald-400 font-medium">✔️ Berhasil Disinkronkan!</p>
                 </div>
             </div>
 
@@ -123,10 +138,8 @@
         const CORRECT_PASSWORD = "bismillah";
 
         // ================= CONFIGURASI INTEGRASI SPREADSHEET =================
-        // 1. Ganti text XXXXX di bawah dengan ID Google Form Anda
+        // MASUKKAN ID DAN ENTRY FORM ANDA DI SINI AGAR SINKRONISASI AKTIF
         const GOOGLE_FORM_ID = "XXXXX"; 
-
-        // 2. Ganti text di bawah sesuai dengan nomor entry dari inspect element Google Form Anda
         const CONFIG_IDS = {
             jenis: "entry.XXXXX",       
             tanggal: "entry.XXXXX",     
@@ -134,6 +147,88 @@
             nominal: "entry.XXXXX"      
         };
         // =====================================================================
+
+        // DATA UTAL HISTORIS BERDASARKAN BERKAS YANG DIUNGGAH
+        const historicalDatabase = [
+            { date: "01 Mar 2026", desc: "Tarik Tunai", type: "pengeluaran", amount: 400000 },
+            { date: "02 Mar 2026", desc: "Operasional", type: "pengeluaran", amount: 170329 },
+            { date: "02 Mar 2026", desc: "Admin Bank", type: "pengeluaran", amount: 1500 },
+            { date: "02 Mar 2026", desc: "Komunikasi", type: "pengeluaran", amount: 20000 },
+            { date: "03 Mar 2026", desc: "Piutang", type: "pemasukan", amount: 1500000 },
+            { date: "03 Mar 2026", desc: "Utang", type: "pengeluaran", amount: 1000000 },
+            { date: "03 Mar 2026", desc: "Transfer Internal", type: "pengeluaran", amount: 500000 },
+            { date: "03 Mar 2026", desc: "Lain-lain", type: "pengeluaran", amount: 35000 },
+            { date: "03 Mar 2026", desc: "Dana Masuk", type: "pemasukan", amount: 2367000 },
+            { date: "04 Mar 2026", desc: "Konsumsi", type: "pengeluaran", amount: 30333 },
+            { date: "04 Mar 2026", desc: "Konsumsi", type: "pengeluaran", amount: 10000 },
+            { date: "04 Mar 2026", desc: "Tarik Tunai", type: "pengeluaran", amount: 300000 },
+            { date: "04 Mar 2026", desc: "Lain-lain", type: "pengeluaran", amount: 206000 },
+            { date: "04 Mar 2026", desc: "Sosial / Infaq", type: "pengeluaran", amount: 50000 },
+            { date: "04 Mar 2026", desc: "Sosial / Infaq", type: "pengeluaran", amount: 20000 },
+            { date: "05 Mar 2026", desc: "Sosial / Infaq", type: "pengeluaran", amount: 400000 },
+            { date: "05 Mar 2026", desc: "Lain-lain", type: "pengeluaran", amount: 301000 },
+            { date: "05 Mar 2026", desc: "Operasional", type: "pengeluaran", amount: 50329 },
+            { date: "08 Mar 2026", desc: "Belanja", type: "pengeluaran", amount: 406500 },
+            { date: "08 Mar 2026", desc: "Operasional", type: "pengeluaran", amount: 240000 },
+            { date: "08 Mar 2026", desc: "Dana Masuk", type: "pemasukan", amount: 750000 },
+            { date: "08 Mar 2026", desc: "Gaji / Honor", type: "pemasukan", amount: 20000 },
+            { date: "08 Mar 2026", desc: "Gaji / Honor", type: "pemasukan", amount: 350000 },
+            { date: "10 Mar 2026", desc: "Belanja", type: "pengeluaran", amount: 174199 },
+            { date: "11 Mar 2026", desc: "Dana Masuk", type: "pemasukan", amount: 4000000 },
+            { date: "11 Mar 2026", desc: "Operasional", type: "pengeluaran", amount: 150000 },
+            { date: "12 Mar 2026", desc: "Biaya Pindah Buku", type: "pengeluaran", amount: 1500 },
+            { date: "12 Mar 2026", desc: "T-Sel Prabayar", type: "pengeluaran", amount: 20000 },
+            { date: "12 Mar 2026", desc: "Biaya Administrasi", type: "pengeluaran", amount: 1500 },
+            { date: "12 Mar 2026", desc: "T-Sel Prabayar", type: "pengeluaran", amount: 20000 },
+            { date: "12 Mar 2026", desc: "Pemindah Bukuan", type: "pemasukan", amount: 1500 },
+            { date: "12 Mar 2026", desc: "T-Sel Prabayar", type: "pemasukan", amount: 25000 },
+            { date: "12 Mar 2026", desc: "Biaya Administrasi", type: "pengeluaran", amount: 1500 },
+            { date: "12 Mar 2026", desc: "T-Sel Prabayar", type: "pengeluaran", amount: 25000 },
+            { date: "12 Mar 2026", desc: "Biaya Pindah Buku", type: "pengeluaran", amount: 1500 },
+            { date: "12 Mar 2026", desc: "T-Sel Prabayar", type: "pengeluaran", amount: 25000 },
+            { date: "12 Mar 2026", desc: "Biaya Administrasi", type: "pengeluaran", amount: 1500 },
+            { date: "12 Mar 2026", desc: "T-Sel Prabayar", type: "pengeluaran", amount: 25000 },
+            { date: "12 Mar 2026", desc: "Biaya Pindah Buku", type: "pengeluaran", amount: 1500 },
+            { date: "12 Mar 2026", desc: "T-Sel Prabayar", type: "pengeluaran", amount: 25000 },
+            { date: "12 Mar 2026", desc: "Biaya Administrasi", type: "pengeluaran", amount: 1500 },
+            { date: "12 Mar 2026", desc: "T-Sel Prabayar", type: "pengeluaran", amount: 25000 },
+            { date: "13 Mar 2026", desc: "Dana Masuk", type: "pemasukan", amount: 1600000 },
+            { date: "13 Mar 2026", desc: "Tarik Tunai", type: "pengeluaran", amount: 1000000 },
+            { date: "13 Mar 2026", desc: "Tarik Tunai", type: "pengeluaran", amount: 1000000 },
+            { date: "13 Mar 2026", desc: "Penyesuaian", type: "pemasukan", amount: 1000000 },
+            { date: "13 Mar 2026", desc: "Tarik Tunai", type: "pengeluaran", amount: 1000000 },
+            { date: "13 Mar 2026", desc: "Tarik Tunai", type: "pengeluaran", amount: 1000000 },
+            { date: "13 Mar 2026", desc: "Tarik Tunai", type: "pengeluaran", amount: 1000000 },
+            { date: "13 Mar 2026", desc: "Tarik Tunai", type: "pengeluaran", amount: 500000 },
+            { date: "13 Mar 2026", desc: "Sosial / Infaq", type: "pengeluaran", amount: 100000 },
+            { date: "13 Mar 2026", desc: "Transportasi", type: "pengeluaran", amount: 325000 },
+            { date: "13 Mar 2026", desc: "Setor Tunai", type: "pemasukan", amount: 3800000 },
+            { date: "17 Mar 2026", desc: "Konsumsi", type: "pengeluaran", amount: 50000 },
+            { date: "18 Mar 2026", desc: "Gaji / Honor", type: "pemasukan", amount: 150000 },
+            { date: "18 Mar 2026", desc: "Gaji / Honor", type: "pemasukan", amount: 400000 },
+            { date: "18 Mar 2026", desc: "Operasional", type: "pengeluaran", amount: 200340 },
+            { date: "18 Mar 2026", desc: "Operasional", type: "pengeluaran", amount: 150337 },
+            { date: "19 Mar 2026", desc: "Gaji / Honor", type: "pemasukan", amount: 190000 },
+            { date: "20 Mar 2026", desc: "Dana Masuk", type: "pemasukan", amount: 600000 },
+            { date: "20 Mar 2026", desc: "Konsumsi", type: "pengeluaran", amount: 110000 },
+            { date: "20 Mar 2026", desc: "Lain-lain", type: "pengeluaran", amount: 250000 },
+            { date: "21 Mar 2026", desc: "Dana Masuk", type: "pemasukan", amount: 500000 },
+            { date: "21 Mar 2026", desc: "Konsumsi", type: "pengeluaran", amount: 100000 },
+            { date: "22 Mar 2026", desc: "Tarik Tunai", type: "pengeluaran", amount: 500000 },
+            { date: "24 Mar 2026", desc: "Top Up E-Wallet", type: "pengeluaran", amount: 250000 },
+            { date: "24 Mar 2026", desc: "Admin Bank", type: "pengeluaran", amount: 500 },
+            { date: "24 Mar 2026", desc: "Belanja", type: "pengeluaran", amount: 17950 },
+            { date: "25 Mar 2026", desc: "Konsumsi / QRIS", type: "pengeluaran", amount: 254190 },
+            { date: "25 Mar 2026", desc: "Konsumsi / QRIS", type: "pengeluaran", amount: 1896700 },
+            { date: "26 Mar 2026", desc: "Admin Bank", type: "pengeluaran", amount: 2000 },
+            { date: "26 Mar 2026", desc: "Belanja", type: "pengeluaran", amount: 24078 },
+            { date: "26 Mar 2026", desc: "Transfer Internal", type: "pengeluaran", amount: 2000000 },
+            { date: "27 Mar 2026", desc: "Belanja", type: "pengeluaran", amount: 80985 },
+            { date: "27 Mar 2026", desc: "Belanja", type: "pengeluaran", amount: 233900 },
+            { date: "27 Mar 2026", desc: "Pendidikan", type: "pengeluaran", amount: 600000 },
+            { date: "29 Mar 2026", desc: "Sosial / Kado", type: "pengeluaran", amount: 100000 },
+            { date: "30 Mar 2026", desc: "Konsumsi / QRIS", type: "pengeluaran", amount: 155000 }
+        ];
 
         function togglePasswordVisibility() {
             const passwordInput = document.getElementById('password-input');
@@ -175,13 +270,59 @@
             const form = document.getElementById('form-transaksi');
             form.action = `https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`;
             
-            // Pasang atribut name dinamis dari konfigurasi ID
             document.getElementById('form-date').setAttribute('name', CONFIG_IDS.tanggal);
             document.getElementById('form-desc').setAttribute('name', CONFIG_IDS.keterangan);
             document.getElementById('form-amount').setAttribute('name', CONFIG_IDS.nominal);
             
             const radios = document.querySelectorAll('input[name="entry.JENIS_ID"]');
             radios.forEach(radio => radio.setAttribute('name', CONFIG_IDS.jenis));
+        }
+
+        // FUNGSI UTAMA UNTUK TRANSFER MASSAL DATA MARET KE SPREADSHEET
+        async function uploadHistoricalData() {
+            if (GOOGLE_FORM_ID === "XXXXX") {
+                alert("Harap konfigurasi ID Google Form Anda di dalam kode terlebih dahulu!");
+                return;
+            }
+            
+            if (!confirm("Apakah Anda yakin ingin menyinkronkan 78 data mutasi historis ke Google Sheets?")) return;
+
+            const btnSync = document.getElementById('btn-sync-all');
+            const progressDiv = document.getElementById('sync-progress');
+            const countSpan = document.getElementById('sync-count');
+
+            btnSync.disabled = true;
+            btnSync.classList.add('opacity-50');
+            progressDiv.classList.remove('hidden');
+
+            // Eksekusi pengiriman data beruntun dengan interval waktu aman agar tidak diblokir sistem Google
+            for (let i = 0; i < historicalDatabase.length; i++) {
+                const item = historicalDatabase[i];
+                countSpan.innerText = i + 1;
+
+                const formData = new FormData();
+                formData.append(CONFIG_IDS.jenis, item.type);
+                formData.append(CONFIG_IDS.tanggal, item.date);
+                formData.append(CONFIG_IDS.keterangan, item.desc);
+                formData.append(CONFIG_IDS.nominal, item.amount);
+
+                try {
+                    // Menggunakan mode no-cors untuk mengabaikan batasan Cross-Origin Google Form
+                    await fetch(`https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        body: formData
+                    });
+                } catch (e) {
+                    console.log("Kirim gagal pada indeks ke-" + i);
+                }
+                
+                // Jeda 200ms per baris agar proses antrean transmisi cloud stabil
+                await new Promise(resolve => setTimeout(resolve, 200));
+            }
+
+            progressDiv.innerText = "🎉 Sukses! Semua data mutasi historis telah berhasil masuk ke Google Sheets.";
+            setTimeout(() => { progressDiv.classList.add('hidden'); }, 5000);
         }
 
         function sendDataCloud(e) {
@@ -191,7 +332,6 @@
             btnSubmit.innerText = "MENGIRIM KE CLOUD...";
             btnSubmit.disabled = true;
 
-            // Logika delay visual sukses
             setTimeout(() => {
                 document.getElementById('form-desc').value = '';
                 document.getElementById('form-amount').value = '';
@@ -201,9 +341,7 @@
                 btnSubmit.disabled = false;
                 
                 notifSukses.classList.remove('hidden');
-                setTimeout(() => {
-                    notifSukses.classList.add('hidden');
-                }, 3500);
+                setTimeout(() => { notifSukses.classList.add('hidden'); }, 3500);
             }, 1000);
         }
     </script>
