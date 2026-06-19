@@ -23,11 +23,17 @@
                 <p class="text-xs text-slate-400 mt-1">Masukkan kata sandi aman pengelola keuangan</p>
             </div>
             <div class="space-y-3 text-left">
-                <div class="relative flex items-center bg-slate-900 border border-slate-700 rounded-xl overflow-hidden focus-within:border-emerald-500 transition-all">
-                    <input type="password" id="password-input" placeholder="Kata Sandi Keamanan" class="w-full bg-transparent px-4 py-3.5 text-center text-emerald-400 placeholder-slate-600 focus:outline-none tracking-widest text-base">
+                <div class="relative flex items-center bg-slate-900 border border-slate-700 rounded-xl overflow-hidden focus-within:border-emerald-500 transition-all pr-3">
+                    <input type="password" id="password-input" placeholder="Kata Sandi Keamanan" class="w-full bg-transparent pl-4 pr-10 py-3.5 text-left text-emerald-400 placeholder-slate-600 focus:outline-none tracking-widest text-base">
+                    <button type="button" onclick="togglePassword()" class="absolute right-3 text-slate-400 hover:text-emerald-400 focus:outline-none cursor-pointer">
+                        <svg id="eye-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                    </button>
                 </div>
                 <button onclick="checkPassword()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition shadow-md text-xs tracking-wider uppercase cursor-pointer">Buka Lembar Jurnal</button>
-                <p id="login-error" class="text-rose-400 text-center text-xs hidden pt-1">Kata sandi keliru.</p>
+                <p id="login-error" class="text-rose-400 text-center text-xs hidden pt-1">Kata sandi keliru atau perhatikan huruf kapital.</p>
             </div>
         </div>
     </div>
@@ -100,8 +106,7 @@
         const CORRECT_PASSWORD = "bismillah";
 
         // ================= CONFIGURASI INTEGRASI SPREADSHEET =================
-        // Masukkan ID dan nomor entry Google Form Anda yang terhubung dengan Excel Laporan Keuangan
-        const GOOGLE_FORM_ID = "1YBw5YAQJnq0g7ZzoDU8EfDEudfLWAwpyd5QGPeuXVgU"; 
+        const GOOGLE_FORM_ID = "MASUKKAN_ID_GOOGLE_FORM_ANDA_DISINI"; 
         const CONFIG_IDS = {
             jenis: "entry.11111111",       
             tanggal: "entry.22222222",     
@@ -109,6 +114,18 @@
             nominal: "entry.44444444"      
         };
         // =====================================================================
+
+        function togglePassword() {
+            const pwdInput = document.getElementById('password-input');
+            const eyeIcon = document.getElementById('eye-icon');
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"></path>`;
+            } else {
+                pwdInput.type = 'password';
+                eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>`;
+            }
+        }
 
         function checkPassword() {
             if (document.getElementById('password-input').value === CORRECT_PASSWORD) {
@@ -141,7 +158,7 @@
 
         function setupFormAttributes() {
             const form = document.getElementById('form-transaksi');
-            form.action = `https://docs.google.com/forms/d/e/${1YBw5YAQJnq0g7ZzoDU8EfDEudfLWAwpyd5QGPeuXVgU}/formResponse`;
+            form.action = `https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`;
             
             document.getElementById('form-date').setAttribute('name', CONFIG_IDS.tanggal);
             document.getElementById('form-desc').setAttribute('name', CONFIG_IDS.keterangan);
