@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Input Keuangan Mobile</title>
-    <!-- Tailwind CSS Terbaru untuk Desain Cepat & Ringan -->
+    <title>Sistem Keuangan Premium Mobile</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -12,132 +11,201 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
+        .premium-glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between">
 
-    <!-- APP BAR (HEADER HP) -->
-    <header class="bg-emerald-800 text-white px-4 py-4 sticky top-0 shadow-lg z-50 flex items-center justify-between rounded-b-2xl border-b border-emerald-700">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-lg">💰</div>
+    <div id="login-screen" class="fixed inset-0 bg-slate-950 z-50 flex flex-col justify-center items-center px-6">
+        <div class="w-full max-w-sm text-center space-y-6">
+            <div class="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center mx-auto border border-emerald-500/30 shadow-lg">
+                <svg class="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            </div>
             <div>
-                <h1 class="text-sm font-bold tracking-wide">Input Mutasi Kas</h1>
-                <p class="text-[10px] text-emerald-200 font-light">Akses Gratis & Real-Time ke Google Sheets</p>
+                <h1 class="text-lg font-bold tracking-wide">Akses Jurnal Terkunci</h1>
+                <p class="text-xs text-slate-400 mt-1">Masukkan kata sandi aman pengelola keuangan</p>
             </div>
-        </div>
-        <span class="bg-emerald-950 text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full text-emerald-400 border border-emerald-500/30">Aktif</span>
-    </header>
-
-    <!-- KONTEN UTAMA FORM HP -->
-    <main class="flex-grow p-4 max-w-md mx-auto w-full space-y-4">
-        
-        <div class="bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-700/50">
-            <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-5">Formulir Jurnal Mutasi</h2>
             
-            <form id="form-mobile" onsubmit="kirimKeGoogleSheets(event)" class="space-y-4">
-                
-                <!-- PILIHAN JENIS ALIRAN DANA -->
-                <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Jenis Transaksi</label>
-                    <div class="grid grid-cols-2 gap-3">
-                        <label class="flex items-center justify-center gap-2 bg-slate-950 border border-slate-700 rounded-xl py-3.5 cursor-pointer has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-950/30 transition-all">
-                            <input type="radio" name="jenis-dana" value="pemasukan" checked class="accent-emerald-500">
-                            <span class="text-xs font-semibold text-emerald-400">Kredit (Masuk)</span>
-                        </label>
-                        <label class="flex items-center justify-center gap-2 bg-slate-950 border border-slate-700 rounded-xl py-3.5 cursor-pointer has-[:checked]:border-rose-500 has-[:checked]:bg-rose-950/30 transition-all">
-                            <input type="radio" name="jenis-dana" value="pengeluaran" class="accent-rose-500">
-                            <span class="text-xs font-semibold text-rose-400">Debit (Keluar)</span>
-                        </label>
-                    </div>
+            <div class="space-y-3 text-left">
+                <div class="relative flex items-center bg-slate-900 border border-slate-700 rounded-xl overflow-hidden focus-within:border-emerald-500 transition-all">
+                    <input type="password" id="password-input" placeholder="Kata Sandi Keamanan" class="w-full bg-transparent px-4 py-3.5 text-center text-emerald-400 placeholder-slate-600 focus:outline-none tracking-widest text-base">
+                    <button type="button" onclick="togglePasswordVisibility()" class="absolute right-4 text-slate-500 hover:text-slate-300 cursor-pointer focus:outline-none">
+                        <svg id="eye-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                    </button>
                 </div>
-
-                <!-- INPUT TANGGAL (OTOMATIS HARI INI) -->
-                <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Tanggal Transaksi</label>
-                    <input type="text" id="entry-tanggal" required placeholder="Contoh: 18 Jun 2026" 
-                           class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-emerald-500 focus:bg-slate-950 transition-all">
-                </div>
-
-                <!-- INPUT KETERANGAN / URAIAN -->
-                <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Keterangan / Uraian</label>
-                    <input type="text" id="entry-keterangan" required placeholder="Contoh: Honor, Tarik Tunai, Belanja Logistik" 
-                           class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:bg-slate-950 transition-all">
-                </div>
-
-                <!-- INPUT NOMINAL -->
-                <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Nominal (Rp)</label>
-                    <input type="number" id="entry-nominal" required placeholder="0" 
-                           class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3.5 text-sm text-amber-400 font-semibold focus:outline-none focus:border-emerald-500 focus:bg-slate-950 transition-all">
-                </div>
-
-                <!-- TOMBOL SIMPAN BESAR -->
-                <button type="submit" id="btn-submit" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-4 rounded-xl shadow-lg active:scale-[0.98] transition text-xs tracking-widest uppercase mt-4 cursor-pointer">
-                    Simpan Ke Jurnal
+                <button onclick="checkPassword()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition shadow-md active:scale-[0.99] uppercase tracking-wider text-xs cursor-pointer">
+                    Buka Lembar Jurnal
                 </button>
-            </form>
-
-            <!-- NOTIFIKASI BERHASIL -->
-            <div id="notif-sukses" class="hidden mt-4 p-4 bg-emerald-950/50 border border-emerald-500/30 rounded-xl text-center">
-                <p class="text-xs text-emerald-400 font-medium">✔️ Mutasi & Keterangan Berhasil Dicatat!</p>
+                <p id="login-error" class="text-rose-400 text-center text-xs hidden pt-1">Kata sandi keliru. Harap periksa kembali.</p>
             </div>
         </div>
+    </div>
 
-    </main>
+    <div id="main-app" class="hidden flex-grow flex flex-col justify-between">
+        
+        <header class="bg-slate-900 px-4 py-4 sticky top-0 shadow-md z-40 flex items-center justify-between border-b border-slate-800">
+            <div class="flex items-center gap-2.5">
+                <span class="text-xl">📊</span>
+                <div>
+                    <h1 class="text-xs font-bold uppercase tracking-wider text-emerald-400">Jurnal Kas Cloud</h1>
+                    <p class="text-[10px] text-slate-400">Terhubung ke Google Sheets</p>
+                </div>
+            </div>
+            <button onclick="logout()" class="text-[9px] font-bold uppercase tracking-widest bg-slate-800 border border-slate-700 px-2.5 py-1.5 rounded-lg hover:bg-rose-950/30 hover:text-rose-400 transition cursor-pointer">
+                Kunci
+            </button>
+        </header>
 
-    <!-- FOOTER -->
-    <footer class="text-center py-4 text-[9px] text-slate-500 tracking-wider uppercase border-t border-slate-800/60 bg-slate-950/30">
-        &copy; 2026 Web Input Keuangan &bull; Bebas Biaya & Hosting Gratis
-    </footer>
+        <main class="p-4 max-w-md mx-auto w-full space-y-4">
+            
+            <div class="premium-glass p-5 rounded-xl space-y-3.5">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400">Input Jurnal Baru</h2>
+                
+                <iframe name="v_iframe" id="v_iframe" class="hidden"></iframe>
+
+                <form id="form-transaksi" action="" method="POST" target="v_iframe" onsubmit="sendDataCloud(event)" class="space-y-4">
+                    
+                    <div>
+                        <label class="block text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1.5">Jenis Transaksi</label>
+                        <div class="grid grid-cols-2 gap-2" id="radio-container">
+                            <label class="flex items-center justify-center gap-1.5 bg-slate-900 border border-slate-700 py-3 rounded-lg cursor-pointer has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-950/20">
+                                <input type="radio" name="entry.JENIS_ID" value="pemasukan" checked class="accent-emerald-500">
+                                <span class="text-xs font-medium text-emerald-400">Kredit (Masuk)</span>
+                            </label>
+                            <label class="flex items-center justify-center gap-1.5 bg-slate-900 border border-slate-700 py-3 rounded-lg cursor-pointer has-[:checked]:border-rose-500 has-[:checked]:bg-rose-950/20">
+                                <input type="radio" name="entry.JENIS_ID" value="pengeluaran" class="accent-rose-500">
+                                <span class="text-xs font-medium text-rose-400">Debit (Keluar)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Tanggal</label>
+                        <input type="text" name="entry.TANGGAL_ID" id="form-date" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-3 text-sm text-white focus:outline-none focus:border-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Keterangan / Uraian</label>
+                        <input type="text" name="entry.KETERANGAN_ID" id="form-desc" required placeholder="Contoh: Belanja ATK, Gaji, dll" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] uppercase font-bold tracking-wider text-slate-400 mb-1">Nominal (Rp)</label>
+                        <input type="number" name="entry.NOMINAL_ID" id="form-amount" required placeholder="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-3.5 text-base text-amber-400 font-bold focus:outline-none focus:border-emerald-500">
+                    </div>
+
+                    <button type="submit" id="btn-submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg active:scale-[0.98] uppercase tracking-wider text-xs mt-2 cursor-pointer">
+                        Kirim ke Google Sheets
+                    </button>
+                </form>
+
+                <div id="notif-sukses" class="hidden p-4 bg-emerald-950/50 border border-emerald-500/30 rounded-xl text-center">
+                    <p class="text-xs text-emerald-400 font-medium">✔️ Berhasil Disinkronkan ke Spreadsheet!</p>
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="text-center py-4 text-[8px] text-slate-600 tracking-wider uppercase bg-slate-950">
+            &copy; 2026 Cloud Ledger System
+        </footer>
+    </div>
 
     <script>
-        // Fungsi untuk mengisi tanggal hari ini secara otomatis dengan format "DD Mmm YYYY"
-        function aturTanggalHariIni() {
-            const sekarang = new Date();
-            const opsi = { day: '2-digit', month: 'short', year: 'numeric' };
-            // Mengubah format tanggal menjadi standar Indonesia, contoh: "18 Jun 2026"
-            document.getElementById('entry-tanggal').value = sekarang.toLocaleDateString('id-ID', opsi);
+        const CORRECT_PASSWORD = "bismillah";
+
+        // ================= CONFIGURASI INTEGRASI SPREADSHEET =================
+        // 1. Ganti text XXXXX di bawah dengan ID Google Form Anda
+        const GOOGLE_FORM_ID = "XXXXX"; 
+
+        // 2. Ganti text di bawah sesuai dengan nomor entry dari inspect element Google Form Anda
+        const CONFIG_IDS = {
+            jenis: "entry.XXXXX",       
+            tanggal: "entry.XXXXX",     
+            keterangan: "entry.XXXXX",  
+            nominal: "entry.XXXXX"      
+        };
+        // =====================================================================
+
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password-input');
+            const eyeIcon = document.getElementById('eye-icon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3l18 18M9.88 9.88a3 3 0 104.24 4.24M10.73 5.08A10.43 10.43 0 0112 5c4.48 0 8.27 2.94 9.54 7a10 10 0 01-2.28 3.58m-3.14 1.15a10.08 10.08 0 01-4.12.27c-4.48 0-8.27-2.94-9.54-7a10 10 0 011.56-3"></path>`;
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>`;
+            }
         }
 
-        function kirimKeGoogleSheets(e) {
-            e.preventDefault();
+        function checkPassword() {
+            const input = document.getElementById('password-input').value;
+            if (input === CORRECT_PASSWORD) {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('main-app').classList.remove('hidden');
+                setupFormAttributes();
+                aturHariIni();
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+            }
+        }
+
+        function logout() {
+            document.getElementById('password-input').value = '';
+            document.getElementById('password-input').type = 'password';
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('main-app').classList.add('hidden');
+        }
+
+        function aturHariIni() {
+            const sekarang = new Date();
+            document.getElementById('form-date').value = sekarang.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+        }
+
+        function setupFormAttributes() {
+            const form = document.getElementById('form-transaksi');
+            form.action = `https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`;
             
+            // Pasang atribut name dinamis dari konfigurasi ID
+            document.getElementById('form-date').setAttribute('name', CONFIG_IDS.tanggal);
+            document.getElementById('form-desc').setAttribute('name', CONFIG_IDS.keterangan);
+            document.getElementById('form-amount').setAttribute('name', CONFIG_IDS.nominal);
+            
+            const radios = document.querySelectorAll('input[name="entry.JENIS_ID"]');
+            radios.forEach(radio => radio.setAttribute('name', CONFIG_IDS.jenis));
+        }
+
+        function sendDataCloud(e) {
             const btnSubmit = document.getElementById('btn-submit');
             const notifSukses = document.getElementById('notif-sukses');
             
-            btnSubmit.innerText = "MENYIMPAN DATA...";
+            btnSubmit.innerText = "MENGIRIM KE CLOUD...";
             btnSubmit.disabled = true;
 
-            const jenis = document.querySelector('input[name="jenis-dana"]:checked').value;
-            const tanggal = document.getElementById('entry-tanggal').value;
-            const keterangan = document.getElementById('entry-keterangan').value;
-            const nominal = document.getElementById('entry-nominal').value;
-
-            // INTEGRASI KE GOOGLE FORM (Ganti URL dengan link 'formResponse' milik Anda)
-            const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfxxxxxxxxx/formResponse"; 
-            
+            // Logika delay visual sukses
             setTimeout(() => {
-                // Reset kolom input keterangan dan nominal setelah sukses
-                document.getElementById('entry-keterangan').value = '';
-                document.getElementById('entry-nominal').value = '';
+                document.getElementById('form-desc').value = '';
+                document.getElementById('form-amount').value = '';
+                aturHariIni();
                 
-                // Setel ulang tanggal ke hari ini
-                aturTanggalHariIni();
-                
-                btnSubmit.innerText = "SIMPAN KE JURNAL";
+                btnSubmit.innerText = "KIRIM KE GOOGLE SHEETS";
                 btnSubmit.disabled = false;
                 
                 notifSukses.classList.remove('hidden');
                 setTimeout(() => {
                     notifSukses.classList.add('hidden');
-                }, 3000);
-                
+                }, 3500);
             }, 1000);
         }
-
-        // Jalankan setelan tanggal otomatis saat halaman dimuat di HP
-        aturTanggalHariIni();
     </script>
 </body>
 </html>
